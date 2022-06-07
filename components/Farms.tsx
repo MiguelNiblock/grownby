@@ -1,32 +1,31 @@
-import { StyleSheet, Text, View, FlatList, Platform } from "react-native";
-import React, { useEffect, useState } from "react";
-import { db } from "../screens/firebase";
-import { collection, onSnapshot, query } from "firebase/firestore";
-import FarmCard from "./FarmCard";
-import { useNavigation } from "@react-navigation/core";
-import type { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "../App";
-import { Button } from "react-native-paper";
-import { ScrollView } from "react-native-gesture-handler";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, Text, View, FlatList, Platform, ScrollView } from "react-native"
+import React, { useEffect, useState } from "react"
+import { db } from "../screens/firebase"
+import { collection, onSnapshot, query } from "firebase/firestore"
+import FarmCard from "./FarmCard"
+import { useNavigation } from "@react-navigation/core"
+import type { StackNavigationProp } from "@react-navigation/stack"
+import { RootStackParamList } from "../App"
+import { Button } from "react-native-paper"
+import { SafeAreaView } from "react-native-safe-area-context"
 
 const Farms = () => {
-  const [farmsData, setFarmsData] = useState([]);
+  const [farmsData, setFarmsData] = useState([])
 
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>()
   useEffect(() => {
-    const farmsCollection = query(collection(db, "Farms"));
+    const farmsCollection = query(collection(db, "Farms"))
 
     onSnapshot(farmsCollection, (querySnapshot) => {
-      setFarmsData(querySnapshot.docs.map((doc) => doc.data()));
+      setFarmsData(querySnapshot.docs.map((doc) => doc.data()))
 
-      console.log("farms in useffect???: ", farmsData);
-    });
-  }, []);
+      console.log("farms in useffect???: ", farmsData)
+    })
+  }, [])
 
   const navigateToAddFarm = () => {
-    navigation.navigate("AddFarm");
-  };
+    navigation.navigate("AddFarm")
+  }
 
   return (
     <>
@@ -40,17 +39,15 @@ const Farms = () => {
 
           <FlatList
             data={farmsData}
-            renderItem={({ item }) => (
-              <FarmCard key={item.displayName} farm={item} />
-            )}
+            renderItem={({ item }) => <FarmCard key={item.displayName} farm={item} />}
           />
         </View>
       </ScrollView>
     </>
-  );
-};
+  )
+}
 
-export default Farms;
+export default Farms
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -83,4 +80,4 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
   },
-});
+})
